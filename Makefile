@@ -7,13 +7,13 @@
 -include Makefile.inc
 
 # Debian packages name llvm-config with a version number - list them here in preference order
-LLVM_CONFIG ?= $(shell which llvm-config-3.5 llvm-config | head -1)
+LLVM_CONFIG ?= $(shell which llvm-config-3.8.1 llvm-config | head -1)
 #luajit will be downloaded automatically (it's much smaller than llvm)
 #to override this, set LUAJIT_PREFIX to the home of an already installed luajit
 LUAJIT_PREFIX ?= build
 
 # same with clang
-CLANG ?= $(shell which clang-3.5 clang | head -1)
+CLANG ?= $(shell which clang-3.8.1 clang | head -1)
 
 CXX ?= $(CLANG)++
 CC ?= $(CLANG)

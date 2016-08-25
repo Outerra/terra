@@ -11,16 +11,6 @@ extern "C" {
 #include <stdio.h>
 #include <inttypes.h>
 
-#ifdef _WIN32
-#include <io.h>
-#include <time.h>
-#include <Windows.h>
-#undef interface
-#else
-#include <unistd.h>
-#include <sys/time.h>
-#endif
-
 #include <cmath>
 #include <sstream>
 #include "llvmheaders.h"
@@ -142,23 +132,8 @@ struct DisassembleFunctionListener : public JITEventListener {
 #endif
 };
 
-static double CurrentTimeInSeconds() {
-#ifdef _WIN32
-    static uint64_t freq = 0;
-    if(freq == 0) {
-        LARGE_INTEGER i;
-        QueryPerformanceFrequency(&i);
-        freq = i.QuadPart;
-    }
-    LARGE_INTEGER t;
-    QueryPerformanceCounter(&t);
-    return t.QuadPart / (double) freq;
-#else
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-    return tv.tv_sec + tv.tv_usec / 1000000.0;
-#endif
-}
+double CurrentTimeInSeconds();
+
 static int terra_currenttimeinseconds(lua_State * L) {
     lua_pushnumber(L, CurrentTimeInSeconds());
     return 1;
